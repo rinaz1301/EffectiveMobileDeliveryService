@@ -13,6 +13,8 @@ namespace EffectiveMobileDeliveryService
             {
                 if (File.Exists(path))
                     return true;
+                else
+                    File.Create(path);
                 if ( Directory.Exists(path))
                 {
                     File.Create(Path.Combine(path, fileName));

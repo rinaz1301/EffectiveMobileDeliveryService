@@ -77,7 +77,7 @@ namespace EffectiveMobileDeliveryService.Controllers
             {
                 _loggerService.LogInformation($"запрос на создание тестового файла с данными");
                 var jsonString = _fileRepository.GetJsonDeliveryOrders();
-                string path = _configuration.GetSection("DeliveryOrderInput").Value;
+                string path = _configuration.GetSection("DeliveryOrdersInput").Value;
                 using (var file = new StreamWriter(path))
                 {
                     file.WriteLine(jsonString);
