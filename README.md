@@ -1,4 +1,4 @@
-# Тестовое задание  EffectiveMobile  -  DeliveryService
+# Тестовое задание  EffectiveMobile  -  DeliveryService  -  ASP.NET WebApi
 
 ## Входные файлы указываются в файле appsettings.json
 
