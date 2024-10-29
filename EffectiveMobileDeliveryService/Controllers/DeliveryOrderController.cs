@@ -40,7 +40,7 @@ namespace EffectiveMobileDeliveryService.Controllers
             }
             catch(FileNotFoundException ex)
             {
-                _loggerService.LogErrorApi(Request.GetDisplayUrl(), ex.Message + ex.StackTrace);
+                _loggerService.LogErrorApi(Request.GetDisplayUrl(), $"не удалось найти файл DeliveryOrder.json");
                 return null;
             }
         }
@@ -52,7 +52,7 @@ namespace EffectiveMobileDeliveryService.Controllers
             {
                 _loggerService.LogInformation($"запрос на создание файла deliveryOrder.json с фильтрацией данных по району {_district} и по дате {_firstDateTime}");
                 string outPath = _configuration.GetSection("DeliveryOrder").Value;
-                var deliveryOrders = _fileRepository.GetDeliveryOrders()
+                var deliveryOrders = _fileRepository.GetDeliveryOrders()?
                     .Where(x => x.District == _district)
                     .Where(x => x.Time >= _firstDateTime && x.Time <= Convert.ToDateTime(_firstDateTime).AddMinutes(30));
                 using (var file = new StreamWriter(outPath))
@@ -61,9 +61,9 @@ namespace EffectiveMobileDeliveryService.Controllers
                 }
                 return HttpStatusCode.Created;
             }
-            catch(Exception ex)
+            catch(Newtonsoft.Json.JsonSerializationException ex)
             {
-                _loggerService.LogErrorApi(Request.GetDisplayUrl(),ex.Message + ex.StackTrace);
+                _loggerService.LogErrorApi(Request.GetDisplayUrl(), "невозможно прочитать файл с данным, неправильная структура файла DeliveryOrdersInput.json");
                 return HttpStatusCode.BadRequest;
             }
 
@@ -86,7 +86,7 @@ namespace EffectiveMobileDeliveryService.Controllers
             }
             catch (Exception ex)
             {
-                _loggerService.LogErrorApi(Request.GetDisplayUrl(), ex.Message + ex.StackTrace);
+                _loggerService.LogErrorApi(Request.GetDisplayUrl(), "не удалось создать тестовый файл с данными DeliveryOrdersInput.json");
                 return HttpStatusCode.BadRequest;
             }
         }

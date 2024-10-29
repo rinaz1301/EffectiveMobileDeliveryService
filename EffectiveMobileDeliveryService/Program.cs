@@ -7,19 +7,16 @@ namespace EffectiveMobileDeliveryService
 {
     public class Program
     {
-        static bool CheckFilePath(string path, string fileName)
+        static bool CheckFilePath(string path)
         {
             try
             {
                 if (File.Exists(path))
                     return true;
-                else
-                    File.Create(path);
-                if ( Directory.Exists(path))
-                {
-                    File.Create(Path.Combine(path, fileName));
+                if (Directory.Exists(path) && !Regex.IsMatch(path, "\\.[a-z]+"))
                     return true;
-                }
+                if(Directory.Exists(path.Remove(path.LastIndexOf('\\'))))
+                    return true;
                 else
                 throw new Exception();
             }
@@ -35,11 +32,11 @@ namespace EffectiveMobileDeliveryService
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            if (!CheckFilePath(builder.Configuration.GetSection("DeliveryLog").Value, "DeliveryLog.log"))
+            if (!CheckFilePath(builder.Configuration.GetSection("DeliveryLog").Value))
                 return;
-            if (!CheckFilePath(builder.Configuration.GetSection("DeliveryOrdersInput").Value, "DeliveryOrdersInput.json"))
+            if (!CheckFilePath(builder.Configuration.GetSection("DeliveryOrdersInput").Value))
                 return;
-            if(!CheckFilePath(builder.Configuration.GetSection("DeliveryOrder").Value, "DeliveryOrder.json"))
+            if(!CheckFilePath(builder.Configuration.GetSection("DeliveryOrder").Value))
                 return;
             
             // Add services to the container.
