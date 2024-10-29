@@ -9,6 +9,7 @@ namespace EffectiveMobileDeliveryServiceTests
 {
     public class Tests
     {
+        //Проверка на существование файлов или директорий
         [Fact]
         public void FileOrDirectoryExist()
         {
@@ -21,6 +22,7 @@ namespace EffectiveMobileDeliveryServiceTests
             Assert.True(File.Exists(path2) || Directory.Exists(path2.Remove(path2.LastIndexOf('\\'))));
             Assert.True(File.Exists(path3) || Directory.Exists(path3.Remove(path3.LastIndexOf('\\'))));
         }
+        //Проверка на возможность десериализовать json файл
         [Fact]
         public void DeseriazableInputFile()
         {

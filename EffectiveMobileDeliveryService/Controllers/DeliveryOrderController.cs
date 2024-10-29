@@ -25,6 +25,7 @@ namespace EffectiveMobileDeliveryService.Controllers
             _configuration = configuration;
             _loggerService = loggerService;
         }
+
         [HttpGet]
         [Route("deliveryOrder.json")]
         public string OpenFile()
